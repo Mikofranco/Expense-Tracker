@@ -7,7 +7,7 @@ export const useGetTransactions = ()=>{
     const [transactions, setTransactions]= useState([]);
     const transactionCollectionRef = collection(db, "transactions");
     const {userId}= useGetUserInfo();
-    let unsubscribe
+    let unsubscribe;
 
     const getTransactions = async ()=>{
         try{

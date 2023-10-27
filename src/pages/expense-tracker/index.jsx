@@ -1,11 +1,11 @@
 import { useState } from "react"; 
 import { useAddTransaction } from "../../hooks/useAddTransaction";
-import { useGetTransaction } from "../../hooks/useGetTransaction"
+import { useGetTransactions } from "../../hooks/useGetTransctions"
 
 
 export const ExpenseTracker =() => {
     const {addTransaction} = useAddTransaction();
-    const {transactions} = useGetTransaction()
+    const {transactions} = useGetTransactions()
     const [description, setDescription]= useState("")
     const [transactionAmount, setTransactionAmount] = useState(0)
     const [transactionType, setTransactionType] = useState("expense")
@@ -81,7 +81,10 @@ export const ExpenseTracker =() => {
                     return(
                         <li>
                             <h4>{description}</h4>
-                            <p>${transactionAmount} . <label>{transactionType}</label></p>
+                            <p>
+                                {" "}
+                                ${transactionAmount} . <label>{transactionType}</label>
+                            </p>
                         </li>
                     )
                 })}
