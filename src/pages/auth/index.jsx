@@ -1,6 +1,7 @@
 import {auth, provider} from "../../config/firebase-config"
 import {signInWithPopup} from "firebase/auth"
 import { useNavigate } from "react-router-dom"
+import "./style.css"
 
 export const Auth =() => {
     const navigat= useNavigate()
@@ -19,6 +20,7 @@ export const Auth =() => {
 
     return (
         <div className="login-page">
+            <h1>Miko Expense Tracker</h1>
             <p>Sign in with google</p>
             <button className="login-with-google-btn"  onClick={signInWithGoogle}>
                 {""}

@@ -76,6 +76,7 @@ export const ExpenseTracker =() => {
             <h3>Transaction</h3>
             <ul>
                 {transactions.map((transaction) =>{
+                    console.log(transaction)
                     const {description, transactionAmount, transactionType} = 
                     transaction;
                     return(
