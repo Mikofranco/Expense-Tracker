@@ -1,31 +1,31 @@
-import {auth, provider} from "../../config/firebase-config"
-import {signInWithPopup} from "firebase/auth"
-import { useNavigate } from "react-router-dom"
-import "./style.css"
+import { auth, provider } from "../../config/firebase-config";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import "./style.css";
 
-export const Auth =() => {
-    const navigat= useNavigate()
-    const signInWithGoogle = async ()=>{
-        const results = await signInWithPopup(auth,provider)
-        const authInfo ={
-            userId:results.user.uid,
-            name: results.user.displayName,
-            profilePhoto: results.user.photoURL,
-            isAuth: true
-        }
-        localStorage.setItem("auth", JSON.stringify(authInfo))
-        navigat("./expense-tracker")
-        console.log(results)
-    }
+export const Auth = () => {
+  const navigat = useNavigate();
+  const signInWithGoogle = async () => {
+    const results = await signInWithPopup(auth, provider);
+    const authInfo = {
+      userId: results.user.uid,
+      name: results.user.displayName,
+      profilePhoto: results.user.photoURL,
+      isAuth: true,
+    };
+    localStorage.setItem("auth", JSON.stringify(authInfo));
+    navigat("./expense-tracker");
+    console.log(results);
+  };
 
-    return (
-        <div className="login-page">
-            <h1>Miko Expense Tracker</h1>
-            <p>Sign in with google</p>
-            <button className="login-with-google-btn"  onClick={signInWithGoogle}>
-                {""}
-                Sign In With Google
-            </button>
-        </div>
-    )
-}
+  return (
+    <div className="login-page">
+      <h1>Miko Expense Tracker</h1>
+      <p>Sign in with google</p>
+      <button className="login-with-google-btn" onClick={signInWithGoogle}>
+        {""}
+        Sign In With Google
+      </button>
+    </div>
+  );
+};
