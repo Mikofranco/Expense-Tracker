@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions} from  "../../hooks/useGetTransctions"
+import "./expenseTracker.css"
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
@@ -11,45 +12,66 @@ export const ExpenseTracker = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTransaction({
-      description,
-      transactionAmount,
-      transactionType,
-    });
+    addTransaction({ description, transactionAmount, transactionType });
+    setDescription("");
+    setTransactionAmount(0);
   };
 
+  // Calculate balance dynamically
+  const balance = transactions.reduce(
+    (acc, { transactionAmount, transactionType }) =>
+      transactionType === "income"
+        ? acc + transactionAmount
+        : acc - transactionAmount,
+    0
+  );
+
   return (
-    <>
-      <div className="expense-tracker">
-        <div className="container">
-          <h1>Expense Tracker</h1>
-          <div className="balance">
-            <h3> Your Balance </h3>
-            <h2>$0.00</h2>
+    <div className="expense-tracker">
+      <div className="container">
+        <h1>Expense Tracker</h1>
+        <div className="balance">
+          <h3>Your Balance</h3>
+          <h2>${balance.toFixed(2)}</h2>
+        </div>
+        <div className="summary">
+          <div className="income">
+            <h4>Income</h4>
+            <p>
+              $
+              {transactions
+                .filter((t) => t.transactionType === "income")
+                .reduce((acc, t) => acc + t.transactionAmount, 0)
+                .toFixed(2)}
+            </p>
           </div>
-          <div className="summary">
-            <div className="income">
-              <h4>Income</h4>
-              <p>$0.00</p>
-            </div>
-            <div className="expenses">
-              <h4>Expenses</h4>
-              <p>$0.00</p>
-            </div>
+          <div className="expenses">
+            <h4>Expenses</h4>
+            <p>
+              $
+              {transactions
+                .filter((t) => t.transactionType === "expense")
+                .reduce((acc, t) => acc + t.transactionAmount, 0)
+                .toFixed(2)}
+            </p>
           </div>
-          <form className="add-transaction" onSubmit={onSubmit}>
-            <input
-              type="text"
-              placeholder="Description"
-              required
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Amount"
-              required
-              onChange={(e) => setTransactionAmount(e.target.value)}
-            />
+        </div>
+        <form className="add-transaction" onSubmit={onSubmit}>
+          <input
+            type="text"
+            placeholder="Description"
+            required
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Amount"
+            required
+            value={transactionAmount}
+            onChange={(e) => setTransactionAmount(Number(e.target.value))}
+          />
+          <div>
             <input
               type="radio"
               id="expense"
@@ -66,29 +88,25 @@ export const ExpenseTracker = () => {
               onChange={(e) => setTransactionType(e.target.value)}
             />
             <label htmlFor="income">Income</label>
-
-            <button type="submit">Add Transcation</button>
-          </form>
-        </div>
+          </div>
+          <button type="submit">Add Transaction</button>
+        </form>
       </div>
+
       <div className="transactions">
-        <h3>Transaction</h3>
+        <h3>Transactions</h3>
         <ul>
-          {transactions.map((transaction) => {
-            console.log(transaction);
-            const { description, transactionAmount, transactionType } =
-              transaction;
-            return (
-              <li>
-                <h4>{description}</h4>
-                <p>
-                  ${transactionAmount} . <label>{transactionType}</label>
-                </p>
-              </li>
-            );
-          })}
+          {transactions.map((transaction, index) => (
+            <li key={index}>
+              <h4>{transaction.description}</h4>
+              <p>
+                ${transaction.transactionAmount.toFixed(2)} -{" "}
+                <span>{transaction.transactionType}</span>
+              </p>
+            </li>
+          ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };

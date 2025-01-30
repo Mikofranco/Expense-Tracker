@@ -11,3 +11,17 @@
     margin-top: 3rem;
     font-size: 32px;
 }
+.login-page button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    background-color: #007bff; /* Example: Bootstrap blue */
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.login-page button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
